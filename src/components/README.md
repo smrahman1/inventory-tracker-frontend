@@ -1,0 +1,2 @@
+# Service Template Frontend
+This folder contains all TypeScript React components used in the app, generally these are `.tsx` files. All reusable components should stay here. Also, only _functional_ React components should be created, not `class` components.

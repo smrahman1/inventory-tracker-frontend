@@ -1,0 +1,2 @@
+# Service Template Frontend
+This folder contains all services used by the frontend app, generally these are `.ts` files. Currently, there are two services, one service for login/logout and another for user registration.

@@ -1,0 +1,2 @@
+# Service Template Frontend
+This folder contains all different views/pages for the app. It is best to create a new folder for each new view you create, to house a `.tsx` file and a `.css` file if needed.

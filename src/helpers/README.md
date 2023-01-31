@@ -1,0 +1,2 @@
+# Service Template Frontend
+This folder contains any helper functions the app requires, generally these are `.ts` files. Currently, we have [ToastHelpers.ts](./ToastHelpers.ts) to manage error/success toast responses.
