@@ -1,11 +1,11 @@
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export function errorToast(toastText: string) {
     toast.error(toastText, {
         position: "top-center",
-        autoClose: 2500,
-        hideProgressBar: false,
+        autoClose: 2000,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
@@ -16,9 +16,9 @@ export function errorToast(toastText: string) {
 
 export function successToast(toastText: string) {
     toast.success(toastText, {
-        position: "top-center",
-        autoClose: 2500,
-        hideProgressBar: false,
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: true,
