@@ -26,7 +26,7 @@ export default function Login() {
                 unitPrice: unitPrice ? unitPrice : null,
             }),
         });
-        navigate("/home", { replace: true });
+        navigate("/", { replace: true });
     }
 
     return (
