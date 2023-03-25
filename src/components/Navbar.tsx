@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "../services/LoginLogoutService";
 import logo from "../assets/logo.png";
 import "./Navbar.css";
+import { Button } from "@mui/material";
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -14,8 +15,13 @@ export default function Navbar() {
 
     return (
         <div id="header">
-            <img src={logo} id="logo" alt="logo" />
-            <div onClick={() => navigate("/add")}>Add Item</div>
+            <img
+                src={logo}
+                id="logo"
+                alt="logo"
+                onClick={() => navigate("/")}
+            />
+            <Button onClick={() => navigate("/add")}>Add Item</Button>
             <div>
                 <span
                     style={{

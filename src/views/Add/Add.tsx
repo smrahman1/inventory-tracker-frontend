@@ -14,21 +14,19 @@ export default function Login() {
 
     async function handleAddItem(e: any) {
         e.preventDefault();
-        const res = await fetch(
-            `${process.env.REACT_APP_INVENTORY_API_ENDPOINT}/add`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    title,
-                    quantity,
-                    size: size ? size : null,
-                    unitPrice: unitPrice ? unitPrice : null,
-                }),
-            }
-        );
+        await fetch(`${process.env.REACT_APP_INVENTORY_API_ENDPOINT}/add`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title,
+                quantity,
+                size: size ? size : null,
+                unitPrice: unitPrice ? unitPrice : null,
+            }),
+        });
+        navigate("/home", { replace: true });
     }
 
     return (
