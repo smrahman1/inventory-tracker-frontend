@@ -15,6 +15,7 @@ export default function Navbar() {
     return (
         <div id="header">
             <img src={logo} id="logo" alt="logo" />
+            <div onClick={() => navigate("/add")}>Add Item</div>
             <div>
                 <span
                     style={{

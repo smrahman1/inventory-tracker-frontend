@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import Register from "./views/Register/Register";
 import Login from "./views/Login/Login";
 import Home from "./views/Home/Home";
+import Add from "./views/Add/Add";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -13,6 +14,7 @@ function AppRouter() {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/add" element={<Add />} />
                 <Route path="/" element={<Home />} />
             </Routes>
             <ToastContainer />
