@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { login } from "../../services/LoginLogoutService";
-import logo from "../../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 import "./Add.css";
 import Navbar from "../../components/Navbar";
+import axios from "axios";
 
 export default function Login() {
     const [title, setTitle] = useState("");
@@ -14,12 +13,12 @@ export default function Login() {
 
     async function handleAddItem(e: any) {
         e.preventDefault();
-        await fetch(`${process.env.REACT_APP_INVENTORY_API_ENDPOINT}/add`, {
+        await axios(`${process.env.REACT_APP_API_ENDPOINT}/inventory/add`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
+            data: JSON.stringify({
                 title,
                 quantity,
                 size: size ? size : null,

@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export function errorToast(toastText: string) {
     toast.error(toastText, {
-        position: "top-center",
+        position: "bottom-center",
         autoClose: 2000,
         hideProgressBar: true,
         closeOnClick: true,

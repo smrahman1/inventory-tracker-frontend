@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../services/LoginLogoutService";
 import logo from "../assets/logo.png";
@@ -21,7 +20,13 @@ export default function Navbar() {
                 alt="logo"
                 onClick={() => navigate("/")}
             />
-            <Button onClick={() => navigate("/add")}>Add Item</Button>
+            <button
+                className="submitButton"
+                style={{ width: "6rem" }}
+                onClick={() => navigate("/add")}
+            >
+                Add Item
+            </button>
             <div>
                 <span
                     style={{

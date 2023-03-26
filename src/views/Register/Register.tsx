@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { register } from "../../services/RegisterService";
 import logo from "../../assets/logo.png";
 import "../../index.css";
+import { isLoggedIn } from "../../services/LoginLogoutService";
 
 export default function Register() {
     const [registerUsername, setRegisterUsername] = useState("");
@@ -19,6 +20,22 @@ export default function Register() {
             if (registerSuccessful) navigate("/login", { replace: true });
         }
     }
+
+    useEffect(() => {
+        const check = async () => {
+            const storeId = localStorage.getItem("username");
+            if (storeId) {
+                const loginSuccessful = await isLoggedIn(storeId);
+                if (!loginSuccessful) {
+                    localStorage.clear();
+                    navigate("/login", { replace: true });
+                }
+            } else {
+                navigate("/login", { replace: true });
+            }
+        };
+        check();
+    }, []);
 
     return (
         <div className="centeredContainer">

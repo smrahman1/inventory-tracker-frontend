@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import axios from "axios";
 import { useState } from "react";
 import { errorToast } from "../helpers/ToastHelpers";
 
@@ -44,7 +45,7 @@ export default function BalloonTable({ data }: any) {
         const value = e.target.value;
         const { id, field } = params;
         const res = await fetch(
-            `${process.env.REACT_APP_INVENTORY_API_ENDPOINT}/update`,
+            `${process.env.REACT_APP_API_ENDPOINT}/inventory/update`,
             {
                 method: "PUT",
                 headers: {
@@ -72,24 +73,24 @@ export default function BalloonTable({ data }: any) {
             errorToast("No rows selected");
             return;
         }
-
-        const res = await fetch(
-            `${process.env.REACT_APP_INVENTORY_API_ENDPOINT}/delete`,
-            {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    ids: selectedRows,
-                }),
-            }
-        );
-        const data = await res.json();
-        if (data.error) {
-            errorToast(data.error);
+        try {
+            const res = await axios(
+                `${process.env.REACT_APP_API_ENDPOINT}/inventory/delete`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: JSON.stringify({
+                        ids: selectedRows,
+                    }),
+                }
+            );
+            const data = await res.data;
+            setRows(data);
+        } catch (err: any) {
+            errorToast(err);
         }
-        setRows(data);
     };
 
     return (
@@ -113,7 +114,13 @@ export default function BalloonTable({ data }: any) {
                     />
                 </Box>
             )}
-            <Button onClick={handleDelete}>Delete</Button>
+            <button
+                className="submitButton"
+                style={{ marginTop: "1rem", width: "6rem" }}
+                onClick={handleDelete}
+            >
+                Delete
+            </button>
         </>
     );
 }

@@ -7,6 +7,9 @@ import Home from "./views/Home/Home";
 import Add from "./views/Add/Add";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function AppRouter() {
     return (

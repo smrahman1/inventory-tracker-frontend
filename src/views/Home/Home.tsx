@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { errorToast } from "../../helpers/ToastHelpers";
 import BalloonTable from "../../components/BalloonTable";
+import { Typography } from "@mui/material";
+import { isLoggedIn } from "../../services/LoginLogoutService";
+import axios from "axios";
 
 export default function Home() {
     const navigate = useNavigate();
@@ -15,37 +18,47 @@ export default function Home() {
         const loggedInUsername = localStorage.getItem("username");
         if (!loggedInUsername) {
             navigate("/login", { replace: true });
-            // errorToast("No user logged in");
         } else {
-            // eslint-disable-next-line
+            const check = async () => {
+                const loginSuccessful = await isLoggedIn(loggedInUsername);
+                if (!loginSuccessful) navigate("/login", { replace: true });
+            };
             const fetchData = async () => {
                 setLoading(true);
-                const res = await fetch(
-                    `${process.env.REACT_APP_INVENTORY_API_ENDPOINT}`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            username: loggedInUsername,
-                        }),
-                    }
-                );
-                const data = await res.json();
-                if (data.error) {
-                    errorToast(data.error);
+                try {
+                    const res = await axios(
+                        `${process.env.REACT_APP_API_ENDPOINT}/inventory`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            data: {
+                                username: loggedInUsername,
+                            },
+                        }
+                    );
+                    const data = await res.data;
+                    setInventory(data);
+                } catch (err: any) {
+                    errorToast(err);
                 }
-                setInventory(data);
                 setLoading(false);
             };
+            check();
             fetchData();
         }
+        // eslint-disable-next-line
     }, []);
 
     return (
         <>
             <Navbar />
+            {loading && (
+                <Typography textAlign="center" variant="h4">
+                    Loading...
+                </Typography>
+            )}
             {!loading && <BalloonTable data={inventory} />}
         </>
     );
