@@ -44,23 +44,23 @@ export default function BalloonTable({ data }: any) {
     const updateQuantity = async (params: any, e: any) => {
         const value = e.target.value;
         const { id, field } = params;
-        const res = await fetch(
-            `${process.env.REACT_APP_API_ENDPOINT}/inventory/update`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    id,
-                    field,
-                    value,
-                }),
-            }
-        );
-        const data = await res.json();
-        if (data.error) {
-            errorToast(data.error);
+        try {
+            await axios(
+                `${process.env.REACT_APP_API_ENDPOINT}/inventory/update`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: JSON.stringify({
+                        id,
+                        field,
+                        value,
+                    }),
+                }
+            );
+        } catch (err: any) {
+            errorToast(err);
         }
     };
 
