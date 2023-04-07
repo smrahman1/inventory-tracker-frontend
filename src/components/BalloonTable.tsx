@@ -1,13 +1,14 @@
-import { Button } from "@mui/material";
+import { Backdrop, CircularProgress, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import axios from "axios";
 import { useState } from "react";
-import { errorToast } from "../helpers/ToastHelpers";
+import { successToast, errorToast } from "../helpers/ToastHelpers";
 
 export default function BalloonTable({ data }: any) {
     const [rows, setRows] = useState(data);
     const [selectedRows, setSelectedRows] = useState<any>([]);
+    const [loading, setLoading] = useState(false);
 
     const columns: GridColDef[] = [
         { field: "id", headerName: "ID", width: 70 },
@@ -121,6 +122,51 @@ export default function BalloonTable({ data }: any) {
             >
                 Delete
             </button>
+            {!loading && (
+                <button
+                    className="submitButton"
+                    style={{ marginTop: "1rem", width: "6rem" }}
+                    onClick={async () => {
+                        setLoading(true);
+                        const res = await axios.get(
+                            `${process.env.REACT_APP_API_ENDPOINT}/inventory/fetch`,
+                            {
+                                method: "GET",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                            }
+                        );
+                        setLoading(false);
+                        if (res.data === "True") {
+                            successToast("Data fetched successfully");
+                        }
+                    }}
+                >
+                    Fetch
+                </button>
+            )}
+            <Backdrop
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                }}
+                open={loading}
+            >
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Typography variant="h6" component="div">
+                        Please wait...It may take up to 2 minutes
+                    </Typography>
+                    <CircularProgress color="inherit" />
+                </div>
+            </Backdrop>
         </>
     );
 }
