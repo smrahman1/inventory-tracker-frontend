@@ -4,7 +4,10 @@ import logo from "../assets/logo.png";
 import "./Navbar.css";
 import { Button } from "@mui/material";
 
-export default function Navbar() {
+interface IProps {
+    admin: boolean;
+}
+export default function Navbar({ admin }: IProps) {
     const navigate = useNavigate();
 
     const logoutUser = async () => {
@@ -27,6 +30,15 @@ export default function Navbar() {
             >
                 Add Item
             </button>
+            {admin && (
+                <button
+                    className="submitButton"
+                    style={{ width: "6rem" }}
+                    onClick={() => navigate("/register")}
+                >
+                    Register
+                </button>
+            )}
             <div>
                 <span
                     style={{

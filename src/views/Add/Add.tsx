@@ -30,7 +30,7 @@ export default function Login() {
 
     return (
         <>
-            <Navbar />
+            <Navbar admin={false} />
             <div className="addContainer">
                 <form
                     className="formBackground"

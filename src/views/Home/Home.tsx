@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { errorToast } from "../../helpers/ToastHelpers";
 import BalloonTable from "../../components/BalloonTable";
 import { Typography } from "@mui/material";
-import { isLoggedIn } from "../../services/LoginLogoutService";
+import { isAdmin, isLoggedIn } from "../../services/LoginLogoutService";
 import axios from "axios";
 
 export default function Home() {
     const navigate = useNavigate();
     const [inventory, setInventory] = useState();
     const [loading, setLoading] = useState(false);
+    const [admin, setAdmin] = useState(false);
 
     useEffect(() => {
         const loggedInUsername = localStorage.getItem("username");
@@ -21,7 +22,13 @@ export default function Home() {
         } else {
             const check = async () => {
                 const loginSuccessful = await isLoggedIn(loggedInUsername);
-                if (!loginSuccessful) navigate("/login", { replace: true });
+                if (loginSuccessful) {
+                    const userIsAdmin = await isAdmin(loggedInUsername);
+                    if (userIsAdmin) setAdmin(true);
+                } else {
+                    localStorage.clear();
+                    navigate("/login", { replace: true });
+                }
             };
             const fetchData = async () => {
                 setLoading(true);
@@ -53,7 +60,7 @@ export default function Home() {
 
     return (
         <>
-            <Navbar />
+            <Navbar admin={admin} />
             {loading && (
                 <Typography textAlign="center" variant="h4">
                     Loading...

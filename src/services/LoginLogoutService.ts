@@ -76,3 +76,22 @@ export async function isLoggedIn(loginUsername: string) {
     }
     return loginSuccessful;
 }
+
+export async function isAdmin(loginUsername: string) {
+    try {
+        if (!process.env.REACT_APP_API_ENDPOINT) return;
+        const res = await axios.post(
+            `${process.env.REACT_APP_API_ENDPOINT}/users/me`,
+            {
+                username: loginUsername,
+            }
+        );
+        if (res.data?.isadmin) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err: any) {
+        console.log(err);
+    }
+}
