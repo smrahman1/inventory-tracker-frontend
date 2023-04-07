@@ -128,18 +128,23 @@ export default function BalloonTable({ data }: any) {
                     style={{ marginTop: "1rem", width: "6rem" }}
                     onClick={async () => {
                         setLoading(true);
-                        const res = await axios.get(
-                            `${process.env.REACT_APP_API_ENDPOINT}/inventory/fetch`,
-                            {
-                                method: "GET",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                },
+                        try {
+                            const res = await axios.get(
+                                `${process.env.REACT_APP_API_ENDPOINT}/inventory/fetch`,
+                                {
+                                    method: "GET",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                }
+                            );
+                            setLoading(false);
+                            if (res.data === "True") {
+                                successToast("Data fetched successfully");
                             }
-                        );
-                        setLoading(false);
-                        if (res.data === "True") {
-                            successToast("Data fetched successfully");
+                        } catch (err: any) {
+                            setLoading(false);
+                            errorToast("Error fetching data");
                         }
                     }}
                 >
